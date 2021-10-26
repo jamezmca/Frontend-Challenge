@@ -31,6 +31,7 @@ export default function App() {
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
       // const deployedNetwork = "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"//NFTFarm.networks[networkId];
+      // const deployedNetwork = "rinkeby"//NFTFarm.networks[networkId];
       const deployedNetwork = "rinkeby"//NFTFarm.networks[networkId];
       const contractAddress = "0xDb172Cf85521EBA2d825C4DD5824ef878696Ee05"//NFTFarm.networks[networkId];
       const instance = new web3.eth.Contract(
@@ -44,8 +45,9 @@ export default function App() {
       setAccounts(accounts)
       setContract(() => instance)
       console.log('hello', accounts)
-      console.log('hi', instance)
-
+      console.log('spanky', instance)
+      console.log('web3',web3)
+      console.log('web3', await web3.eth.getChainId())
     
     } catch (error) {
       // Catch any errors for any of the above operations.
@@ -56,28 +58,28 @@ export default function App() {
     }
   })()},[]);
 
-  // useEffect(() => {
-  //   async function runExample() {
-  //     // Stores a given value, 5 by default.
-  //     console.log(accounts)
-  //     await contract.methods.set(5).send({ from: accounts[0] });
-  
-  //     // Get the value from the contract to prove it worked.
-  //     const response = await contract.methods.get().call();
-  
-  //     setStorageValue(response)
-  //   }
-  //   if (contract && accounts) {
-  //     runExample()
-  //   }
-   
-  // }, [contract, accounts])
+  useEffect(() => {
+    async function getAllFighters() {
+      // Stores a given value, 5 by default.
+
+      // Get the value from the contract to prove it worked.
+      const response = await contract.methods.getNumberOfNFTs().call()
+      console.log('hi', response)
+      setStorageValue(response)
+    }
+    if (contract && accounts) {
+      getAllFighters()
+    }
+  console.log(storageValue)
+  }, [contract, accounts])
   
 
   async function mintNFT(e) {
     e.preventDefault()
-    console.log('minting...')
-    // await contract.methods.
+    console.log('minting...', accounts[0])
+    
+    const response = await contract.methods.createRandomFighter(accounts[0])
+    console.log(response)
   }
 
   if (!web3) {
