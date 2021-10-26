@@ -23,11 +23,11 @@ export default function App() {
     ;(async () => {
     try {
       // Get network provider and web3 instance.
-      const web3 = await getWeb3();
+      const web3 = await getWeb3('https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161');
+      // const web3 = await getWeb3('http://localhost:3000');
 
       // Use web3 to get the user's accounts.
       const accounts = await web3.eth.getAccounts();
-      console.log(accounts)
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
       // const deployedNetwork = "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"//NFTFarm.networks[networkId];
@@ -64,13 +64,14 @@ export default function App() {
 
       // Get the value from the contract to prove it worked.
       const response = await contract.methods.getNumberOfNFTs().call()
-      console.log('hi', response)
+      const response2 = await contract.methods.totalSupply().call()
+      const response3 = await contract.methods.tokens('cool')
+      console.log('hi', response3)
       setStorageValue(response)
     }
     if (contract && accounts) {
       getAllFighters()
     }
-  console.log(storageValue)
   }, [contract, accounts])
   
 
@@ -78,8 +79,7 @@ export default function App() {
     e.preventDefault()
     console.log('minting...', accounts[0])
     
-    const response = await contract.methods.createRandomFighter(accounts[0])
-    console.log(response)
+    await contract.methods.createRandomFighter(accounts[0])
   }
 
   if (!web3) {
