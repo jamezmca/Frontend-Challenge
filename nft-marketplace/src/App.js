@@ -7,21 +7,34 @@ import {
 } from "react-router-dom";
 import { ethers } from 'ethers'
 import axios from 'axios'
-import Web3Modal from 'web3modal'
+import Web3Modal, { Provider } from 'web3modal'
 
 import Home from "./components/Home";
 import MarketPlace from "./components/MarketPlace";
 import './App.css'
 
+import NFTFarm from './NFTFarm.json'
 const contractAddress = '0xDb172Cf85521EBA2d825C4DD5824ef878696Ee05'
 
 
 
 function App() {
+  const [nfts, setNfts] = useState([])
+  const [loadingState, setLoadingState] = useState(true)
+  const [tokensTotal, setTokensTotal] = useState()
+  
+  useEffect(() => {
+    loadNFTs()
+  }, [])
 
+  async function loadNFTs() {
+    const provider = new ethers.providers.JsonRpcProvider()
+    const contract = new ethers.Contract(contractAddress, NFTFarm.abi, provider)
+    const hello = await contract.getNumberOfNFTs()
+    console.log(contract)
+  }
 
-
-
+  console.log(tokensTotal)
   return (
     <Router>
       <div>
@@ -42,7 +55,7 @@ function App() {
             <MarketPlace />
           </Route>
           <Route path="/">
-            <Home />
+            <Home tokensTotal={tokensTotal}/>
           </Route>
         </Switch>
       </div>
