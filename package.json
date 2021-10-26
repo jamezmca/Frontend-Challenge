@@ -1,0 +1,25 @@
+{
+  "name": "frontend-challenge",
+  "version": "1.0.0",
+  "description": "If you are in this repo, you have received an email from me detailing the challenge. Please fork this repo and upload the completed challenge to your github and send me the link via email.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jamezmca/Frontend-Challenge.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jamezmca/Frontend-Challenge/issues"
+  },
+  "homepage": "https://github.com/jamezmca/Frontend-Challenge#readme",
+  "dependencies": {
+    "@openzeppelin/contracts": "^3.3.0",
+    "solc": "^0.8.9",
+    "web3": "^1.6.0"
+  }
+}
