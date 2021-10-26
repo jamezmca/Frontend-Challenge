@@ -30,10 +30,12 @@ export default function App() {
       console.log(accounts)
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
-      const deployedNetwork = 0xDb172Cf85521EBA2d825C4DD5824ef878696Ee05//NFTFarm.networks[networkId];
+      // const deployedNetwork = "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"//NFTFarm.networks[networkId];
+      const deployedNetwork = "rinkeby"//NFTFarm.networks[networkId];
+      const contractAddress = "0xDb172Cf85521EBA2d825C4DD5824ef878696Ee05"//NFTFarm.networks[networkId];
       const instance = new web3.eth.Contract(
         NFTFarm.abi,
-        deployedNetwork && deployedNetwork.address,
+        deployedNetwork && contractAddress,
       );
 
       // Set web3, accounts, and contract to the state, and then proceed with an
@@ -54,22 +56,22 @@ export default function App() {
     }
   })()},[]);
 
-  useEffect(() => {
-    async function runExample() {
-      // Stores a given value, 5 by default.
-      console.log(accounts)
-      await contract.methods.set(5).send({ from: accounts[0] });
+  // useEffect(() => {
+  //   async function runExample() {
+  //     // Stores a given value, 5 by default.
+  //     console.log(accounts)
+  //     await contract.methods.set(5).send({ from: accounts[0] });
   
-      // Get the value from the contract to prove it worked.
-      const response = await contract.methods.get().call();
+  //     // Get the value from the contract to prove it worked.
+  //     const response = await contract.methods.get().call();
   
-      setStorageValue(response)
-    }
-    if (contract && accounts) {
-      runExample()
-    }
+  //     setStorageValue(response)
+  //   }
+  //   if (contract && accounts) {
+  //     runExample()
+  //   }
    
-  }, [contract, accounts])
+  // }, [contract, accounts])
   
 
   async function mintNFT(e) {
