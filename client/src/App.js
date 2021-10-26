@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
-import SimpleStorageContract from "./contracts/SimpleStorage.json";
+import NFTFarm from "./contracts/NFTFarm.json";
 import getWeb3 from "./getWeb3";
 
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
 import "./App.css";
+import Store from "./components/Store";
+import Home from "./components/Home";
 
 export default function App() {
   const [storageValue, setStorageValue] = useState(0)
@@ -21,9 +30,9 @@ export default function App() {
       console.log(accounts)
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
-      const deployedNetwork = SimpleStorageContract.networks[networkId];
+      const deployedNetwork = 0xDb172Cf85521EBA2d825C4DD5824ef878696Ee05//NFTFarm.networks[networkId];
       const instance = new web3.eth.Contract(
-        SimpleStorageContract.abi,
+        NFTFarm.abi,
         deployedNetwork && deployedNetwork.address,
       );
 
@@ -63,23 +72,43 @@ export default function App() {
   }, [contract, accounts])
   
 
+  async function mintNFT(e) {
+    e.preventDefault()
+    console.log('minting...')
+    // await contract.methods.
+  }
+
   if (!web3) {
     return <div>Loading Web3, accounts, and contract...</div>;
   }
+
   return (
-    <div className="App">
-      <h1>Good to Go!</h1>
-      <p>Your Truffle Box is installed and ready.</p>
-      <h2>Smart Contract Example</h2>
-      <p>
-        If your contracts compiled and migrated successfully, below will show
-        a stored value of 5 (by default).
-        </p>
-      <p>
-        Try changing the value stored on <strong>line 42</strong> of App.js.
-        </p>
-      <div>The stored value is: {storageValue}</div>
-    </div>
+    <Router>
+      <div className="App">
+        <nav className="nav">
+          <ul>
+            <li >
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/store">Store</Link>
+            </li>
+          </ul>
+        </nav>
+
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Switch>
+          <Route path="/store">
+            <Store />
+          </Route>
+
+          <Route path="/">
+            <Home mintNFT={mintNFT}/>
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 
 }
